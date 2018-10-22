@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<suite name="BankGuru" parallel="tests" thread-count="3">
+	<parameter name="url" value="http://demo.guru99.com/v4/" />
+	
+	<test name="Run on Chrome">
+		<parameter name="browser" value="chrome" />
+
+		<classes>
+			<class name="com.bankguru.user.User_01_Login_Level3_ApplyAbtractTest" />
+		</classes>
+	</test>
+
+	<test name="Run on Firefox">
+		<parameter name="browser" value="firefox" />
+		<classes>
+			<class name="com.bankguru.user.User_01_Login_Level3_ApplyAbtractTest" />
+		</classes>
+	</test>
+
+	<test name="Run on Chrome Headless">
+		<parameter name="browser" value="chrome_headless" />
+		<classes>
+			<class name="com.bankguru.user.User_01_Login_Level3_ApplyAbtractTest" />
+		</classes>
+	</test>
+
+
+
+
+</suite> <!-- Suite -->
