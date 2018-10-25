@@ -1,68 +1,69 @@
 package com.bankguru.user;
 
 import java.util.Random;
-import java.util.concurrent.TimeUnit;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.WebElement;
 import org.openqa.selenium.firefox.FirefoxDriver;
 import org.testng.Assert;
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
-public class User_01_Login_Level0_StepByStep {
+import commons.AbstractPage;
+
+public class User_01_Login_Level_1_ApplyAbtractPage {
 	WebDriver driver;
 	private String currentUrl, newEmail, newPass;
+	private AbstractPage abstractPage;
 
 	@Test
 	public void TC_01_Register() {
 		// Get current URL
-		currentUrl = driver.getCurrentUrl();
+		
+		currentUrl = abstractPage.getCurrentUrl(driver);
 
 		// click to Here button
-		driver.findElement(By.xpath("//a[text()='here']")).click();
+		abstractPage.clickToElement(driver, "//a[text()='here']");
 
 		// Send Email to register new account
-		WebElement emailRegistTextBox = driver.findElement(By.xpath("//input[@name='emailid']"));
-		emailRegistTextBox.sendKeys("toanbui" + randomNumber() + "@gmail.com");
+		abstractPage.sendKeyToElement(driver, "//input[@name='emailid']", "toanbui" + randomNumber() + "@gmail.com");
 
 		// Click submit button
-		driver.findElement(By.xpath("//input[@type='submit']")).click();
+		abstractPage.clickToElement(driver, "//input[@type='submit']");
 
 		// Get newmail and password
-		newEmail = driver.findElement(By.xpath("//td[text()='User ID :']/following-sibling::td")).getText().trim();
-		newPass = driver.findElement(By.xpath("//td[text()='Password :']/following-sibling::td")).getText().trim();
+		newEmail = abstractPage.getTextElement(driver, "//td[text()='User ID :']/following-sibling::td").trim();
+		newPass = abstractPage.getTextElement(driver, "//td[text()='Password :']/following-sibling::td").trim();
 		System.out.println(newEmail + " &&&& " + newPass);
 	}
 
 	@Test
 	public void TC_02_Login() {
 		// Get URL homepage
-		driver.get(currentUrl);
+		abstractPage.openUrl(driver, currentUrl);
 
 		// Input Email and Password to Login text box
-		driver.findElement(By.xpath("//input[@name='uid']")).sendKeys(newEmail);
-		driver.findElement(By.xpath("//input[@name='password']")).sendKeys(newPass);
+		abstractPage.sendKeyToElement(driver, "//input[@name='uid']", newEmail);
+		abstractPage.sendKeyToElement(driver, "//input[@name='password']", newPass);
 
 		// Click Login button
-		driver.findElement(By.xpath("//input[@name='btnLogin']")).click();
+		abstractPage.clickToElement(driver, "//input[@name='btnLogin']");
 
 		// Verify Login success
 		Assert.assertTrue(driver.findElement(By.xpath("//ul[@class='menusubnav']")).isDisplayed());
 
 		// Click logout button
-		driver.findElement(By.xpath("//a[contains(.,'Log out')]")).click();
+		abstractPage.clickToElement(driver, "//a[contains(.,'Log out')]");
 
 	}
 
 	@BeforeClass
 	public void beforeClass() {
 		driver = new FirefoxDriver();
-		driver.get("http://demo.guru99.com/v4/");
-		driver.manage().timeouts().implicitlyWait(30, TimeUnit.SECONDS);
-		driver.manage().window().maximize();
+		abstractPage = new AbstractPage();
+		
+		abstractPage.openUrl(driver, "http://demo.guru99.com/v4/");
 
 	}
 

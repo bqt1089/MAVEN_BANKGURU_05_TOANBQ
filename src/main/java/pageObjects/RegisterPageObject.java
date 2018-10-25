@@ -4,6 +4,8 @@ import java.util.Random;
 
 import org.openqa.selenium.WebDriver;
 
+import com.gargoylesoftware.htmlunit.Page;
+
 import commons.AbstractPage;
 import pageUIs.RegisterPageUI;
 
@@ -41,7 +43,8 @@ public class RegisterPageObject extends AbstractPage {
 		return n;
 	}
 	
-	public void openUrl ( String url) {
+	public LoginPageObject openUrl ( String url) {
 		openUrl(driver, url);
+		return PageFactoryManager.getLoginPageDriver(driver);
 	}
 }

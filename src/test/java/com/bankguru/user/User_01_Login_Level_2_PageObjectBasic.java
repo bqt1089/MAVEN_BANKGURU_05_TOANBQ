@@ -1,48 +1,39 @@
 package com.bankguru.user;
 
 import org.openqa.selenium.WebDriver;
-import org.testng.Assert;
+import org.openqa.selenium.firefox.FirefoxDriver;
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
-import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
 
-import commons.AbstractTest;
+import commons.AbstractPage;
 import pageObjects.HomePageObject;
 import pageObjects.LoginPageObject;
 import pageObjects.RegisterPageObject;
+import pageUIs.LoginPageUI;
 
-public class User_01_Login_Level3_ApplyAbtractTest extends AbstractTest {
+public class User_01_Login_Level_2_PageObjectBasic {
 	WebDriver driver;
+	private AbstractPage abstractPage;
 	private LoginPageObject loginPageObject;
 	private HomePageObject homePageObject;
 	private RegisterPageObject registerPageObject;
 
-	@Parameters({ "browser", "url" })
-	@BeforeClass
-	public void beforeClass(String browserName, String urlName) {
-		driver = openMultiBrowser(browserName, urlName);
-
-		loginPageObject = new LoginPageObject(driver);
-
-	}
-
 	@Test
 	public void TC_01_Register() {
 		// Get current URL
-		crUrl = loginPageObject.getLoginPageUrl();
-
+		crUrl = loginPageObject.getCurrentUrl(driver);
+		
 		// click to Here button
 		loginPageObject.clickRegistHereButton();
-
+		
 		// Send Email to register new account
-		registerPageObject = new RegisterPageObject(driver);
 		registerPageObject.inputEmailID();
-
+		
 		// Click submit button
 		registerPageObject.clickSubmitButton();
 
-		// Get new mail and password
+		// Get newmail and password
 		userID = registerPageObject.getUserID();
 		password = registerPageObject.getPassword();
 	}
@@ -50,20 +41,33 @@ public class User_01_Login_Level3_ApplyAbtractTest extends AbstractTest {
 	@Test
 	public void TC_02_Login() {
 		// Get URL homepage
-		registerPageObject.openUrl(crUrl);
+		abstractPage.openUrl(driver, crUrl);
+		
 		// Input Email and Password to Login text box
 		loginPageObject.inputUserID(userID);
-
+		
 		// Click Login button
 		loginPageObject.inputPassword(password);
-
+		
 		// Verify Login success
 		loginPageObject.clickLoginButton();
-
+		
 		// Click logout button
-		homePageObject = new HomePageObject(driver);
-		Assert.assertTrue(homePageObject.verifyMenuBarDisplayed());
+		homePageObject.verifyMenuBarDisplayed();
 		homePageObject.clickLogoutButton();
+	}
+
+	@BeforeClass
+	public void beforeClass() {
+		driver = new FirefoxDriver();
+
+		abstractPage = new AbstractPage();
+		loginPageObject = new LoginPageObject(driver);
+		homePageObject = new HomePageObject(driver);
+		registerPageObject = new RegisterPageObject(driver);
+
+		abstractPage.openUrl(driver, LoginPageUI.URL);
+
 	}
 
 	@AfterClass

@@ -14,10 +14,6 @@ public class HomePageObject extends AbstractPage {
 		driver = mappingDriver;
 	}
 	
-	public void openUrl (WebDriver driver, String url) {
-		openUrl(driver, url);
-	}
-
 	public boolean verifyMenuBarDisplayed() {
 		waitForControlVisible(driver, HomePageUI.MENU_BAR);
 		WebElement element = driver.findElement(By.xpath(HomePageUI.MENU_BAR));
