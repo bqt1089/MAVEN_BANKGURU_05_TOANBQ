@@ -15,6 +15,14 @@ import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.Select;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
+import pageObjects.EditCustomerPageObject;
+import pageObjects.HomePageObject;
+import pageObjects.NewAccountPageObject;
+import pageObjects.NewCustomerPageObject;
+import pageObjects.PageFactoryManager;
+import pageUIs.AbtractPageUI;
+import pageUIs.HomePageUI;
+
 public class AbstractPage {
 
 	/* ==== Web Browser==== */
@@ -52,6 +60,13 @@ public class AbstractPage {
 	/* ===== Web Element ===== */
 
 	public void clickToElement(WebDriver driver, String locator) {
+		WebElement element = driver.findElement(By.xpath(locator));
+		element.click();
+	}
+
+	public void clickToElement(WebDriver driver, String locator, String value) {
+		locator = String.format(locator, value);
+		System.out.println("==== Dynamic Element : "+locator + " ======= : ");
 		WebElement element = driver.findElement(By.xpath(locator));
 		element.click();
 	}
@@ -375,6 +390,13 @@ public class AbstractPage {
 		wait.until(ExpectedConditions.visibilityOf(element));
 	}
 
+	public void waitForControlVisible(WebDriver driver, String locator, String... value) {
+		locator = String.format(locator, value);
+		WebElement element = driver.findElement(By.xpath(locator));
+		WebDriverWait wait = new WebDriverWait(driver, timeout);
+		wait.until(ExpectedConditions.visibilityOf(element));
+	}
+
 	public void waitForControlClickAble(WebDriver driver, String locator) {
 		WebElement element = driver.findElement(By.xpath(locator));
 		WebDriverWait wait = new WebDriverWait(driver, timeout);
@@ -390,6 +412,32 @@ public class AbstractPage {
 	public void waitForAlertPresence(WebDriver driver) {
 		WebDriverWait wait = new WebDriverWait(driver, timeout);
 		wait.until(ExpectedConditions.alertIsPresent());
+	}
+
+	/* ===== Open any Page==== */
+
+	public HomePageObject openHomePage(WebDriver driver) {
+		waitForControlVisible(driver, AbtractPageUI.DYNAMIC_XPATH_OPENPAGE, "Manager");
+		clickToElement(driver, AbtractPageUI.DYNAMIC_XPATH_OPENPAGE, "Manager");
+		return PageFactoryManager.getHomePageDriver(driver);
+	}
+
+	public NewCustomerPageObject openNewCustomerPage(WebDriver driver) {
+		waitForControlVisible(driver, AbtractPageUI.DYNAMIC_XPATH_OPENPAGE, "New Customer");
+		clickToElement(driver, AbtractPageUI.DYNAMIC_XPATH_OPENPAGE, "New Customer");
+		return PageFactoryManager.getNewCustomerPageObjectDriver(driver);
+	}
+
+	public EditCustomerPageObject openEditCustomerPage(WebDriver driver) {
+		waitForControlVisible(driver, AbtractPageUI.DYNAMIC_XPATH_OPENPAGE, "Edit Customer");
+		clickToElement(driver, AbtractPageUI.DYNAMIC_XPATH_OPENPAGE, "Edit Customer");
+		return PageFactoryManager.getEditCustomerPageDriver(driver);
+	}
+
+	public NewAccountPageObject openNewAccountPage(WebDriver driver) {
+		waitForControlVisible(driver, AbtractPageUI.DYNAMIC_XPATH_OPENPAGE, "New Account");
+		clickToElement(driver, AbtractPageUI.DYNAMIC_XPATH_OPENPAGE, "New Account");
+		return PageFactoryManager.getNewAccountPageObject(driver);
 	}
 
 	private int timeout = 30;

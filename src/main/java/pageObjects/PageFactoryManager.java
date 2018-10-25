@@ -16,4 +16,16 @@ public class PageFactoryManager {
 		return new RegisterPageObject(driver);
 	}
 
+	public static EditCustomerPageObject getEditCustomerPageDriver(WebDriver driver) {
+		return new EditCustomerPageObject(driver);
+	}
+
+	public static NewCustomerPageObject getNewCustomerPageObjectDriver(WebDriver driver) {
+		return new NewCustomerPageObject(driver);
+	}
+
+	public static NewAccountPageObject getNewAccountPageObject(WebDriver driver) {
+		return new NewAccountPageObject(driver);
+	}
+
 }

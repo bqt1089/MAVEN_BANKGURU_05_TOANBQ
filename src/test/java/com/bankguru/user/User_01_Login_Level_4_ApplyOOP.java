@@ -8,8 +8,11 @@ import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
 
 import commons.AbstractTest;
+import pageObjects.EditCustomerPageObject;
 import pageObjects.HomePageObject;
 import pageObjects.LoginPageObject;
+import pageObjects.NewAccountPageObject;
+import pageObjects.NewCustomerPageObject;
 import pageObjects.PageFactoryManager;
 import pageObjects.RegisterPageObject;
 
@@ -18,6 +21,9 @@ public class User_01_Login_Level_4_ApplyOOP extends AbstractTest {
 	private LoginPageObject loginPageObject;
 	private HomePageObject homePageObject;
 	private RegisterPageObject registerPageObject;
+	private NewCustomerPageObject newCustomerPageObject;
+	private EditCustomerPageObject editCustomerPageObject;
+	private NewAccountPageObject newAccountPageObject;
 
 	@Parameters({ "browser", "url" })
 	@BeforeClass
@@ -60,15 +66,25 @@ public class User_01_Login_Level_4_ApplyOOP extends AbstractTest {
 		// Verify Login success
 		homePageObject = loginPageObject.clickLoginButton();
 
-		// Click logout button
-		Assert.assertTrue(homePageObject.verifyMenuBarDisplayed());
-		homePageObject.clickLogoutButton();
+		// // Click logout button
+		// Assert.assertTrue(homePageObject.verifyMenuBarDisplayed());
+		// homePageObject.clickLogoutButton();
 	}
 
 	@Test
 	public void TC_03_OpenMultiPage() {
-		
+		// Home Page -> New Customer Page
+		newCustomerPageObject = homePageObject.openNewCustomerPage(driver);
 
+		// New Customer Page -> Edit Customer Page
+		editCustomerPageObject = newCustomerPageObject.openEditCustomerPage(driver);
+
+		// Edit Customer Page - > New Account Page
+		newAccountPageObject = editCustomerPageObject.openNewAccountPage(driver);
+
+		// New Account Page -> Home Page
+		homePageObject = newAccountPageObject.openHomePage(driver);
+		
 	}
 
 	@AfterClass
