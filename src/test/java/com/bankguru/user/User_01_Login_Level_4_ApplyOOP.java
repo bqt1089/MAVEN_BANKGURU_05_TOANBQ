@@ -67,7 +67,7 @@ public class User_01_Login_Level_4_ApplyOOP extends AbstractTest {
 		homePageObject = loginPageObject.clickLoginButton();
 
 		// // Click logout button
-		// Assert.assertTrue(homePageObject.verifyMenuBarDisplayed());
+		homePageObject.verifyUserIDUndisplay(userID+"0");
 		// homePageObject.clickLogoutButton();
 	}
 
@@ -89,7 +89,8 @@ public class User_01_Login_Level_4_ApplyOOP extends AbstractTest {
 
 	@AfterClass
 	public void afterClass() {
-		driver.quit();
+//		driver.quit();
+		closeBrowser(driver);
 	}
 
 	private String crUrl, userID, password;

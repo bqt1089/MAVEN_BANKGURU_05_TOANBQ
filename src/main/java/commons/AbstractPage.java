@@ -1,5 +1,6 @@
 package commons;
 
+import java.util.Date;
 import java.util.List;
 import java.util.Set;
 import java.util.concurrent.TimeUnit;
@@ -21,7 +22,6 @@ import pageObjects.NewAccountPageObject;
 import pageObjects.NewCustomerPageObject;
 import pageObjects.PageFactoryManager;
 import pageUIs.AbtractPageUI;
-import pageUIs.HomePageUI;
 
 public class AbstractPage {
 
@@ -439,7 +439,52 @@ public class AbstractPage {
 		clickToElement(driver, AbtractPageUI.DYNAMIC_XPATH_OPENPAGE, "New Account");
 		return PageFactoryManager.getNewAccountPageObject(driver);
 	}
+	
+	
+	public boolean isControlUndisplayed(WebDriver driver, String locator) {
+    	Date date = new Date();
+		System.out.println("Started time = " + date.toString());
+		overrideGlobalTimeout(driver, shorTimeout);
+		List<WebElement> elements = driver.findElements(By.xpath(locator));
+		if (elements.size() == 0) {
+			date = new Date();
+			System.out.println("End time = " + date.toString());
+			overrideGlobalTimeout(driver, timeout);
+			return true;
+		} else {
+			date = new Date();
+			System.out.println("End time = " + date.toString());
+			overrideGlobalTimeout(driver, timeout);
+			return false;
+		}
+	}
+
+	public boolean isControlUndisplayed(WebDriver driver, String locator, String... value) {
+		Date date = new Date();
+		System.out.println("Started time = " + date.toString());
+		overrideGlobalTimeout(driver, shorTimeout);
+		locator = String.format(locator, (Object[]) value);
+		List<WebElement> elements = driver.findElements(By.xpath(locator));
+		if (elements.size() == 0) {
+			date = new Date();
+			System.out.println("End time = " + date.toString());
+			overrideGlobalTimeout(driver, timeout);
+			return true;
+		} else {
+			date = new Date();
+			System.out.println("End time = " + date.toString());
+			overrideGlobalTimeout(driver, timeout);
+			return false;
+		}
+	}
+
+	public void overrideGlobalTimeout(WebDriver driver, long timeOut) {
+		driver.manage().timeouts().implicitlyWait(timeOut, TimeUnit.SECONDS);
+	}
+	
+	
 
 	private int timeout = 30;
+	private int shorTimeout = 5;
 
 }

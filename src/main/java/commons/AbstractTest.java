@@ -48,6 +48,41 @@ public class AbstractTest {
 		String osName = System.getProperty("os.name");
 		return osName;
 	}
+	// Hàm close browser driver
+		protected void closeBrowser(WebDriver driver) {
+	    	try {
+				// Detect OS (Windows/ Linux/ MAC)
+				String osName = System.getProperty("os.name").toLowerCase();
+				String cmd = "";
+				driver.quit();
+				if (driver.toString().toLowerCase().contains("chrome")) {
+					// Kill process
+					if (osName.toLowerCase().contains("mac")) {
+						cmd = "pkill chromedriver";
+					} else {
+						cmd = "taskkill /F /FI \"IMAGENAME eq chromedriver*\"";
+					}
+					Process process = Runtime.getRuntime().exec(cmd);
+					process.waitFor();
+				}
+				if (driver.toString().toLowerCase().contains("firefox")) {
+					if (osName.toLowerCase().contains("mac")) {
+						cmd = "pkill firefoxdriver";
+					} else {
+						cmd = "taskkill /F /FI \"IMAGENAME eq firefoxdriver*\"";
+					}
+					Process process = Runtime.getRuntime().exec(cmd);
+					process.waitFor();
+				}
+				if (driver.toString().toLowerCase().contains("internetexplorer")) {
+					cmd = "taskkill /F /FI \"IMAGENAME eq IEDriverServer*\"";
+					Process process = Runtime.getRuntime().exec(cmd);
+					process.waitFor();
+				}
+			} catch (Exception e) {
+				System.out.println(e.getMessage());
+			}
+		}
 
 	String pathProject = System.getProperty("user.dir");
 }
