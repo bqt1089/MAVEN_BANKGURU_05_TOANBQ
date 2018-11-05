@@ -2,6 +2,7 @@ package commons;
 
 import java.util.Date;
 import java.util.List;
+import java.util.Random;
 import java.util.Set;
 import java.util.concurrent.TimeUnit;
 
@@ -22,6 +23,7 @@ import pageObjects.NewAccountPageObject;
 import pageObjects.NewCustomerPageObject;
 import pageObjects.PageFactoryManager;
 import pageUIs.AbtractPageUI;
+import pageUIs.NewCustomerUI;
 
 public class AbstractPage {
 
@@ -64,17 +66,23 @@ public class AbstractPage {
 		element.click();
 	}
 
-	public void clickToElement(WebDriver driver, String locator, String value) {
-		locator = String.format(locator, value);
-		System.out.println("==== Dynamic Element : "+locator + " ======= : ");
+	public void clickToElement(WebDriver driver, String locator, String... locatorValues) {
+		locator = String.format(locator, (Object[]) locatorValues);
 		WebElement element = driver.findElement(By.xpath(locator));
 		element.click();
 	}
 
-	public void sendKeyToElement(WebDriver driver, String locator, String text) {
+	public void sendKeyToElement(WebDriver driver, String locator, String value) {
 		WebElement element = driver.findElement(By.xpath(locator));
 		element.clear();
-		element.sendKeys(text);
+		element.sendKeys(value);
+	}
+
+	public void sendKeyToElement(WebDriver driver, String locator, String inputValue, String... locatorValues) {
+		locator = String.format(locator, (Object[]) locatorValues);
+		WebElement element = driver.findElement(By.xpath(locator));
+		element.clear();
+		element.sendKeys(inputValue);
 	}
 
 	public void selectItemInDropDown(WebDriver driver, String locator, String item) {
@@ -136,6 +144,12 @@ public class AbstractPage {
 	}
 
 	public boolean isControlDisplayed(WebDriver driver, String locator) {
+		WebElement element = driver.findElement(By.xpath(locator));
+		return element.isDisplayed();
+	}
+
+	public boolean isControlDisplayed(WebDriver driver, String locator, String... locatorValues) {
+		locator = String.format(locator, (Object[]) locatorValues);
 		WebElement element = driver.findElement(By.xpath(locator));
 		return element.isDisplayed();
 	}
@@ -390,8 +404,8 @@ public class AbstractPage {
 		wait.until(ExpectedConditions.visibilityOf(element));
 	}
 
-	public void waitForControlVisible(WebDriver driver, String locator, String... value) {
-		locator = String.format(locator, value);
+	public void waitForControlVisible(WebDriver driver, String locator, String... values) {
+		locator = String.format(locator, values);
 		WebElement element = driver.findElement(By.xpath(locator));
 		WebDriverWait wait = new WebDriverWait(driver, timeout);
 		wait.until(ExpectedConditions.visibilityOf(element));
@@ -439,10 +453,16 @@ public class AbstractPage {
 		clickToElement(driver, AbtractPageUI.DYNAMIC_XPATH_OPENPAGE, "New Account");
 		return PageFactoryManager.getNewAccountPageObject(driver);
 	}
-	
-	
+
+	public HomePageObject openLogoutPage(WebDriver driver) {
+		waitForControlVisible(driver, AbtractPageUI.DYNAMIC_XPATH_OPENPAGE, "Log out");
+		clickToElement(driver, AbtractPageUI.DYNAMIC_XPATH_OPENPAGE, "Log out");
+		acceptAlert(driver);
+		return PageFactoryManager.getHomePageDriver(driver);
+	}
+
 	public boolean isControlUndisplayed(WebDriver driver, String locator) {
-    	Date date = new Date();
+		Date date = new Date();
 		System.out.println("Started time = " + date.toString());
 		overrideGlobalTimeout(driver, shorTimeout);
 		List<WebElement> elements = driver.findElements(By.xpath(locator));
@@ -481,8 +501,35 @@ public class AbstractPage {
 	public void overrideGlobalTimeout(WebDriver driver, long timeOut) {
 		driver.manage().timeouts().implicitlyWait(timeOut, TimeUnit.SECONDS);
 	}
-	
-	
+
+	public int randomNumber() {
+		Random num = new Random();
+		int n = num.nextInt(99999999) + 1;
+		return n;
+	}
+
+	// DYNAMIC PAGE & DYNAMIC XPATH
+
+	public void sendkeyToDynamicTextBox(WebDriver driver, String locatorValue, String inputValue) {
+		waitForControlVisible(driver, AbtractPageUI.DYNAMIC_TEXTBOX, locatorValue);
+		sendKeyToElement(driver, AbtractPageUI.DYNAMIC_TEXTBOX, inputValue, locatorValue);
+	}
+
+	public void sendkeyToDynamicTextArea(WebDriver driver, String locatorValue, String inputValue) {
+		waitForControlVisible(driver, AbtractPageUI.DYNAMIC_TEXTAREA, locatorValue);
+		sendKeyToElement(driver, AbtractPageUI.DYNAMIC_TEXTAREA, inputValue, locatorValue);
+	}
+
+	public void clickAnyDynamicRadioButton(WebDriver driver, String locatorValue) {
+		waitForControlVisible(driver, AbtractPageUI.DYNAMIC_RADIO_BUTTON, locatorValue);
+		clickToElement(driver, AbtractPageUI.DYNAMIC_RADIO_BUTTON, locatorValue);
+	}
+
+	public void clickToDynamicButton(WebDriver driver, String locatorValue) {
+		waitForControlVisible(driver, AbtractPageUI.DYNAMIC_TEXTBOX, locatorValue);
+		clickToElement(driver, AbtractPageUI.DYNAMIC_TEXTBOX, locatorValue);
+		
+	}
 
 	private int timeout = 30;
 	private int shorTimeout = 5;

@@ -30,4 +30,8 @@ public class HomePageObject extends AbstractPage {
 		System.out.println(isControlUndisplayed(driver, HomePageUI.MANAGER_ID_TEXT, value));
 		Assert.assertTrue(isControlUndisplayed(driver, HomePageUI.MANAGER_ID_TEXT, value));
 	}
+	public void verifyUserDisplay(String value) {
+		System.out.println(isControlDisplayed(driver, HomePageUI.MANAGER_ID_TEXT, value));
+		Assert.assertTrue(isControlDisplayed(driver, HomePageUI.MANAGER_ID_TEXT, value));
+	}
 }

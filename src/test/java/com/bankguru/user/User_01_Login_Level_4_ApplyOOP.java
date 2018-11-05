@@ -67,29 +67,26 @@ public class User_01_Login_Level_4_ApplyOOP extends AbstractTest {
 		homePageObject = loginPageObject.clickLoginButton();
 
 		// // Click logout button
-		homePageObject.verifyUserIDUndisplay(userID+"0");
+		homePageObject.verifyUserIDUndisplay(userID + "0");
 		// homePageObject.clickLogoutButton();
 	}
 
 	@Test
-	public void TC_03_OpenMultiPage() {
+	public void TC_03_RegisterNewCustomer() {
 		// Home Page -> New Customer Page
 		newCustomerPageObject = homePageObject.openNewCustomerPage(driver);
 
-		// New Customer Page -> Edit Customer Page
 		editCustomerPageObject = newCustomerPageObject.openEditCustomerPage(driver);
 
-		// Edit Customer Page - > New Account Page
 		newAccountPageObject = editCustomerPageObject.openNewAccountPage(driver);
 
-		// New Account Page -> Home Page
 		homePageObject = newAccountPageObject.openHomePage(driver);
-		
+
 	}
 
 	@AfterClass
 	public void afterClass() {
-//		driver.quit();
+		// driver.quit();
 		closeBrowser(driver);
 	}
 
