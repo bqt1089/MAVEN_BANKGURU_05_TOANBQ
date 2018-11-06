@@ -44,7 +44,7 @@
 				<version>2.20</version>
 				<configuration>
 					<suiteXmlFiles>
-						<file>src/test/resources/runBankGuruTestcases.xml</file>
+						<file>src/test/resources/runBankGuruTestcases_DynamicPage.xml</file>
 					</suiteXmlFiles>
 				</configuration>
 			</plugin>
