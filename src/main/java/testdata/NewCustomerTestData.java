@@ -4,7 +4,7 @@ import java.util.Random;
 
 public class NewCustomerTestData {
 	public static final String customerName = "Toan Bui";
-	public static final String dateOfBirth = "15/10/2000";
+	public static final String dateOfBirth = "10/10/2000";
 	public static final String address = "K123 Le Duan";
 	public static final String city = "Da Nang";
 	public static final String state = "Thanh Khe";

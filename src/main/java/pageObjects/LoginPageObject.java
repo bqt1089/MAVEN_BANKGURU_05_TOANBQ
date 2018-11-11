@@ -14,7 +14,7 @@ public class LoginPageObject extends AbstractPage {
 
 	public RegisterPageObject clickRegistHereButton() {
 		waitForControlVisible(driver, LoginPageUI.HERE_BUTTON);
-		clickToElement(driver, LoginPageUI.HERE_BUTTON);
+		clickElementByJS(driver, LoginPageUI.HERE_BUTTON);
 		return PageFactoryManager.getRegisterPageDriver(driver);
 	}
 

@@ -11,6 +11,9 @@ import org.openqa.selenium.firefox.FirefoxDriver;
 import org.testng.Assert;
 import org.testng.Reporter;
 
+import io.github.bonigarcia.wdm.WebDriverManager;
+
+
 public class AbstractTest {
 	WebDriver driver;
 	protected final Log log;
@@ -20,27 +23,26 @@ public class AbstractTest {
 	}
 
 	public WebDriver openMultiBrowser(String browser, String url) {
-		if (browser.toLowerCase().contains("chrome")) {
+		if (browser.toLowerCase().equals("chrome")) {
 			if (checkOs().toLowerCase().contains("mac")) {
-				System.setProperty("webdriver.chrome.driver", ".//src/test/resources/chromedriver");
-			} else if (checkOs().toLowerCase().contains("windown")) {
-				System.setProperty("webdriver.chrome.driver", ".//src/test/resources/chromedriver.exe");
+//				System.setProperty("webdriver.chrome.driver", ".//src/test/resources/chromedriver");
+				WebDriverManager.chromedriver().setup();
 			} else {
-				System.out.println("Error OS");
+				System.out.println("Not run on Mac");
 			}
 
 			driver = new ChromeDriver();
 			driver.get(url);
-		} else if (browser.toLowerCase().contains("firefox")) {
+		} else if (browser.toLowerCase().equals("firefox")) {
+			System.setProperty("webdriver.gecko.driver", ".//src/test/resources/geckodriver");
+//			WebDriverManager.firefoxdriver().setup();
 			driver = new FirefoxDriver();
 			driver.get(url);
-		} else if (browser.toLowerCase().contains("headless")) {
+		} else if (browser.toLowerCase().equals("chromeheadless")) {
 			if (checkOs().toLowerCase().contains("mac")) {
 				System.setProperty("webdriver.chrome.driver", ".//src/test/resources/chromedriver");
-			} else if (checkOs().toLowerCase().contains("windown")) {
-				System.setProperty("webdriver.chrome.driver", ".//src/test/resources/chromedriver.exe");
 			} else {
-				System.out.println("Error OS");
+				System.out.println("Not run on Mac");
 			}
 			ChromeOptions options = new ChromeOptions();
 			options.addArguments("headless");
@@ -49,7 +51,7 @@ public class AbstractTest {
 			driver.get(url);
 		}
 		driver.manage().timeouts().implicitlyWait(20, TimeUnit.SECONDS);
-		driver.manage().window().maximize();
+//		 driver.manage().window().maximize();
 		return driver;
 	}
 
@@ -106,7 +108,7 @@ public class AbstractTest {
 		} catch (Throwable e) {
 			pass = false;
 			log.info(e);
-
+			VerificationFailures.getFailures().addFailureForTest(Reporter.getCurrentTestResult(), e);
 			// Add status (true/ false) to Report (ReportNG)
 			Reporter.getCurrentTestResult().setThrowable(e);
 		}
@@ -129,6 +131,7 @@ public class AbstractTest {
 		} catch (Throwable e) {
 			pass = false;
 			log.info(e);
+			VerificationFailures.getFailures().addFailureForTest(Reporter.getCurrentTestResult(), e);
 			Reporter.getCurrentTestResult().setThrowable(e);
 		}
 
@@ -147,6 +150,7 @@ public class AbstractTest {
 		} catch (Throwable e) {
 			pass = false;
 			log.info(e);
+			VerificationFailures.getFailures().addFailureForTest(Reporter.getCurrentTestResult(), e);
 			Reporter.getCurrentTestResult().setThrowable(e);
 		}
 		return pass;

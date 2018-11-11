@@ -12,7 +12,6 @@ import pageObjects.LoginPageObject;
 import pageObjects.NewCustomerPageObject;
 import pageObjects.PageFactoryManager;
 import pageObjects.RegisterPageObject;
-import pageUIs.AbtractPageUI;
 import pageUIs.NewCustomerUI;
 import testdata.NewCustomerTestData;
 
@@ -70,7 +69,7 @@ public class Account_01_Registerer_DynamicPageObject extends AbstractTest {
 	}
 
 	@Test
-	public void TC_03_OpenMultiPage() {
+	public void TC_03_CreateNewCustomer() {
 		log.info("Create NewCustomer - Step 01 : Open Customer Page");
 		newCustomerPageObject = homePageObject.openNewCustomerPage(driver);
 

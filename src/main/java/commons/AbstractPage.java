@@ -32,7 +32,6 @@ public class AbstractPage {
 	public void openUrl(WebDriver driver, String url) {
 		driver.get(url);
 		driver.manage().timeouts().implicitlyWait(timeout, TimeUnit.SECONDS);
-		driver.manage().window().maximize();
 	}
 
 	public String getTitle(WebDriver driver) {
@@ -81,7 +80,7 @@ public class AbstractPage {
 	public void sendKeyToElement(WebDriver driver, String locator, String inputValue, String... locatorValues) {
 		locator = String.format(locator, (Object[]) locatorValues);
 		WebElement element = driver.findElement(By.xpath(locator));
-		element.clear();
+//		element.clear();
 		element.sendKeys(inputValue);
 	}
 
@@ -345,6 +344,12 @@ public class AbstractPage {
 		JavascriptExecutor js = (JavascriptExecutor) driver;
 		js.executeScript("arguments[0].click();", element);
 	}
+	public void clickElementByJS(WebDriver driver, String locator, String... locatorValues) {
+		locator = String.format(locator, locatorValues);
+		WebElement element = driver.findElement(By.xpath(locator));
+		JavascriptExecutor js = (JavascriptExecutor) driver;
+		js.executeScript("arguments[0].click();", element);
+	}
 
 	public void highlightElementByJS(WebDriver driver, String locator) {
 		WebElement element = driver.findElement(By.xpath(locator));
@@ -527,8 +532,11 @@ public class AbstractPage {
 
 	public void clickToDynamicButton(WebDriver driver, String locatorValue) {
 		waitForControlVisible(driver, AbtractPageUI.DYNAMIC_TEXTBOX, locatorValue);
+		if (driver.toString().toLowerCase().contains("firefox")) {
+			clickElementByJS(driver, AbtractPageUI.DYNAMIC_TEXTBOX, locatorValue);
+		} else {
 		clickToElement(driver, AbtractPageUI.DYNAMIC_TEXTBOX, locatorValue);
-		
+		}
 	}
 
 	private int timeout = 30;
