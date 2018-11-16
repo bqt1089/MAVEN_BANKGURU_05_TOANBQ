@@ -76,7 +76,7 @@ public class Account_01_Registerer_DynamicPageObject extends AbstractTest {
 		log.info("Create NewCustomer - Step 02 : Input All information");
 		newCustomerPageObject.sendkeyToDynamicTextBox(driver, NewCustomerUI.CUSTOMER_NAME_FIELD, NewCustomerTestData.customerName);
 		newCustomerPageObject.clickAnyDynamicRadioButton(driver, NewCustomerUI.CUSTOMER_RADIO_MALE);
-		newCustomerPageObject.sendkeyToDynamicTextBox(driver, NewCustomerUI.DATE_OF_BIRTH_FIELD, NewCustomerTestData.dateOfBirth);
+		newCustomerPageObject.sendkeyToDynamicTextBox(driver, NewCustomerUI.DATE_OF_BIRTH_FIELD, "10/10/2000");
 		newCustomerPageObject.sendkeyToDynamicTextArea(driver, NewCustomerUI.ADDRESS_TEXTBOX, NewCustomerTestData.address);
 		newCustomerPageObject.sendkeyToDynamicTextBox(driver, NewCustomerUI.CITY_FIELD, NewCustomerTestData.city);
 		newCustomerPageObject.sendkeyToDynamicTextBox(driver, NewCustomerUI.STATE_FIELD, NewCustomerTestData.state);
@@ -89,8 +89,14 @@ public class Account_01_Registerer_DynamicPageObject extends AbstractTest {
 		newCustomerPageObject.clickToDynamicButton(driver, NewCustomerUI.SUBMIT_BUTTON);
 
 		log.info("TC_03 Create NewCustomer - Step 04 : Verify register success is displayed");
+		try {
+			Thread.sleep(3000);
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		verifyTrue(newCustomerPageObject.isControlDisplayed(driver,NewCustomerUI.REGISTER_SUCCESS_LOCATOR));
-
+		
 	}
 
 	@Test

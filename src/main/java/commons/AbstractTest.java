@@ -8,16 +8,18 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
 import org.openqa.selenium.firefox.FirefoxDriver;
+import org.openqa.selenium.firefox.FirefoxOptions;
+import org.openqa.selenium.remote.DesiredCapabilities;
 import org.testng.Assert;
 import org.testng.Reporter;
 
 import io.github.bonigarcia.wdm.WebDriverManager;
 
-
 public class AbstractTest {
 	WebDriver driver;
 	protected final Log log;
-
+	private final String workingDir = System.getProperty("user.dir");
+	
 	protected AbstractTest() {
 		log = LogFactory.getLog(getClass());
 	}
@@ -25,33 +27,45 @@ public class AbstractTest {
 	public WebDriver openMultiBrowser(String browser, String url) {
 		if (browser.toLowerCase().equals("chrome")) {
 			if (checkOs().toLowerCase().contains("mac")) {
-//				System.setProperty("webdriver.chrome.driver", ".//src/test/resources/chromedriver");
 				WebDriverManager.chromedriver().setup();
 			} else {
 				System.out.println("Not run on Mac");
-			}
-
-			driver = new ChromeDriver();
-			driver.get(url);
+			}DesiredCapabilities capabilities = DesiredCapabilities.chrome();
+			ChromeOptions options = new ChromeOptions();
+//			options.addArguments("-incognito");
+			options.addArguments("--disable-extensions");
+			options.addArguments("disable-inforbars");
+			options.addArguments("start-maximized");
+			capabilities.setCapability(ChromeOptions.CAPABILITY, options);
+			driver = new ChromeDriver(capabilities);
+			
 		} else if (browser.toLowerCase().equals("firefox")) {
-			System.setProperty("webdriver.gecko.driver", ".//src/test/resources/geckodriver");
-//			WebDriverManager.firefoxdriver().setup();
-			driver = new FirefoxDriver();
-			driver.get(url);
+			WebDriverManager.firefoxdriver().setup();
+			System.setProperty(FirefoxDriver.SystemProperty.DRIVER_USE_MARIONETTE, "true");
+			System.setProperty(FirefoxDriver.SystemProperty.BROWSER_LOGFILE, workingDir + "//FirefoxLog.txt");
+			FirefoxOptions options = new FirefoxOptions();
+			driver = new FirefoxDriver(options);
+			
 		} else if (browser.toLowerCase().equals("chromeheadless")) {
 			if (checkOs().toLowerCase().contains("mac")) {
-				System.setProperty("webdriver.chrome.driver", ".//src/test/resources/chromedriver");
-			} else {
+				WebDriverManager.chromedriver().setup();
+			}
+			else {
 				System.out.println("Not run on Mac");
 			}
 			ChromeOptions options = new ChromeOptions();
 			options.addArguments("headless");
 			options.addArguments("window-size=1366x768");
 			driver = new ChromeDriver(options);
-			driver.get(url);
+		} else if (browser.toLowerCase().equals("firefoxheadless")){
+			WebDriverManager.firefoxdriver().setup();
+			FirefoxOptions options = new FirefoxOptions();
+			options.setHeadless(true);
 		}
+
 		driver.manage().timeouts().implicitlyWait(20, TimeUnit.SECONDS);
-//		 driver.manage().window().maximize();
+		// driver.manage().window().maximize();
+		driver.get(url);
 		return driver;
 	}
 

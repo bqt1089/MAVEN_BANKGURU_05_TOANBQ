@@ -3,18 +3,26 @@
 
 	<parameter name="url" value="http://demo.guru99.com/v4/" />
 
-	<!-- <test name="Run on Chrome">
+	<test name="Run on Chrome">
 		<parameter name="browser" value="chrome" />
 		<classes>
 			<class name="com.bankguru.user.Account_01_Registerer_DynamicPageObject" />
 		</classes>
-	</test> -->
-	<test name="Run on Firefox">
-		<parameter name="browser" value="chrome" />
+	</test> 
+
+	<!-- <test name="Run on Firefox">
+		<parameter name="browser" value="firefox" />
 		<classes>
 			<class name="com.bankguru.user.Account_01_Registerer_DynamicPageObject" />
 		</classes>
 	</test>
+	 -->
+	<!-- <test name="Run on Firefox Headless">
+		<parameter name="browser" value="firefoxheadless" />
+		<classes>
+			<class name="com.bankguru.user.Account_01_Registerer_DynamicPageObject" />
+		</classes>
+	</test> -->
 
 	<!-- <test name="Run on Chrome Headless"> <parameter name="browser" value="chromeheadless" /> <classes> <class name="com.bankguru.user.Account_01_Registerer_DynamicPageObject" /> </classes> </test> -->
 
