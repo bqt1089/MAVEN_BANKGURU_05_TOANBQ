@@ -1,0 +1,12 @@
+{
+	"customername": "Toan Bui",
+	"address": "K123 Da nang",
+	"cc": {
+		"city": "Da Nang",
+		"state": "Thanh Khe"
+	},
+	"numb": {
+		"pin": "123456",
+		"mobile": "0123456789"
+	}
+}

@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<suite name="BankGuru" parallel="tests" thread-count="3">
+
+	<parameter name="url" value="http://demo.guru99.com/v4/" />
+
+	<test name="Run on Chrome">
+		<parameter name="browser" value="chrome" />
+		<parameter name="newcustomer" value="./src/main/java/testdata/CustomerData.json" />
+		<classes>
+			<class name="com.bankguru.user.Account_01_Registerer_Login_InitDataJson" />
+		</classes>
+	</test> 
+
+	<!-- <test name="Run on Firefox">
+		<parameter name="browser" value="firefox" />
+		<classes>
+			<class name="com.bankguru.user.Account_01_Registerer_DynamicPageObject" />
+		</classes>
+	</test>
+	 -->
+	<!-- <test name="Run on Firefox Headless">
+		<parameter name="browser" value="firefoxheadless" />
+		<classes>
+			<class name="com.bankguru.user.Account_01_Registerer_DynamicPageObject" />
+		</classes>
+	</test> -->
+
+	<!-- <test name="Run on Chrome Headless"> <parameter name="browser" value="chromeheadless" /> <classes> <class name="com.bankguru.user.Account_01_Registerer_DynamicPageObject" /> </classes> </test> -->
+
+	<listeners>
+		<listener class-name="org.uncommons.reportng.HTMLReporter" />
+		<listener class-name="org.uncommons.reportng.JUnitXMLReporter" />
+		<listener class-name="commons.ExtentReportListener" />
+	</listeners>
+
+</suite> 
