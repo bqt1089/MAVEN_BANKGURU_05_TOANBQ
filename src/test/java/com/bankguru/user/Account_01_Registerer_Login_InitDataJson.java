@@ -19,7 +19,6 @@ import pageObjects.PageFactoryManager;
 import pageObjects.RegisterPageObject;
 import pageUIs.NewCustomerUI;
 import testdata.GetCustomerData;
-import testdata.NewCustomerTestData;
 
 public class Account_01_Registerer_Login_InitDataJson extends AbstractTest {
 	WebDriver driver;

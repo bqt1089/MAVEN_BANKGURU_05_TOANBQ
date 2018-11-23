@@ -23,7 +23,6 @@ import pageObjects.NewAccountPageObject;
 import pageObjects.NewCustomerPageObject;
 import pageObjects.PageFactoryManager;
 import pageUIs.AbtractPageUI;
-import pageUIs.NewCustomerUI;
 
 public class AbstractPage {
 
@@ -345,7 +344,7 @@ public class AbstractPage {
 		js.executeScript("arguments[0].click();", element);
 	}
 	public void clickElementByJS(WebDriver driver, String locator, String... locatorValues) {
-		locator = String.format(locator, locatorValues);
+		locator = String.format(locator, (Object[]) locatorValues);
 		WebElement element = driver.findElement(By.xpath(locator));
 		JavascriptExecutor js = (JavascriptExecutor) driver;
 		js.executeScript("arguments[0].click();", element);
@@ -409,8 +408,8 @@ public class AbstractPage {
 		wait.until(ExpectedConditions.visibilityOf(element));
 	}
 
-	public void waitForControlVisible(WebDriver driver, String locator, String... values) {
-		locator = String.format(locator, values);
+	public void waitForControlVisible(WebDriver driver, String locator, String... locatorValues) {
+		locator = String.format(locator, (Object[])locatorValues);
 		WebElement element = driver.findElement(By.xpath(locator));
 		WebDriverWait wait = new WebDriverWait(driver, timeout);
 		wait.until(ExpectedConditions.visibilityOf(element));

@@ -1,10 +1,6 @@
 package pageObjects;
 
-import java.util.Random;
-
 import org.openqa.selenium.WebDriver;
-
-import com.gargoylesoftware.htmlunit.Page;
 
 import commons.AbstractPage;
 import pageUIs.RegisterPageUI;
